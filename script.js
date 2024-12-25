@@ -79,8 +79,28 @@ async function copyAccount(email, password) {
     try {
         const copyBtn = event.currentTarget;
         const icon = copyBtn.querySelector('i');
+        const text = `${email}:${password}`;
         
-        await navigator.clipboard.writeText(`${email}:${password}`);
+        if (navigator.clipboard && window.isSecureContext) {
+            await navigator.clipboard.writeText(text);
+        } else {
+            const textArea = document.createElement('textarea');
+            textArea.value = text;
+            textArea.style.position = 'fixed';
+            textArea.style.left = '-999999px';
+            textArea.style.top = '-999999px';
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+            try {
+                document.execCommand('copy');
+                textArea.remove();
+            } catch (err) {
+                console.error('Fallback copy failed:', err);
+                textArea.remove();
+                return;
+            }
+        }
         
         icon.className = 'fas fa-check';
         copyBtn.style.background = 'rgba(72, 187, 120, 0.2)';
@@ -96,7 +116,7 @@ async function copyAccount(email, password) {
         console.error('Failed to copy:', err);
     }
 }
-// Add to existing JavaScript
+
 function downloadNewAccounts() {
     if (!accounts.accounts || accounts.accounts.length === 0) return;
     
@@ -111,7 +131,6 @@ function downloadNewAccounts() {
         toast.classList.add('show');
         setTimeout(() => {
             toast.classList.remove('show');
-            // Reset toast content
             setTimeout(() => {
                 toast.innerHTML = '<i class="fas fa-check-circle"></i><span>Copied to clipboard!</span>';
             }, 300);
@@ -134,7 +153,6 @@ function downloadNewAccounts() {
     toast.classList.add('show');
     setTimeout(() => {
         toast.classList.remove('show');
-        // Reset toast content
         setTimeout(() => {
             toast.innerHTML = '<i class="fas fa-check-circle"></i><span>Copied to clipboard!</span>';
         }, 300);
@@ -143,13 +161,11 @@ function downloadNewAccounts() {
 
 document.getElementById('downloadNew').addEventListener('click', downloadNewAccounts);
 
-// Add loading animation for the logo
 window.addEventListener('load', () => {
     document.querySelector('.logo').style.opacity = '1';
 });
 
 document.getElementById('statusFilter').addEventListener('change', filterAccounts);
 
-// Initialize with loading animation
 document.querySelector('.container').style.opacity = '0';
 loadAccounts();
