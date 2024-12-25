@@ -1,3 +1,29 @@
 {
-    "accounts": []
+    "accounts": [
+        {
+            "email": "ammar914356@gmail.com",
+            "password": "03011730661kaz",
+            "status": "new"
+        },
+        {
+            "email": "mr45@me.com",
+            "password": "Wolfskin@14",
+            "status": "new"
+        },
+        {
+            "email": "2002hotgrl@gmail.com",
+            "password": "Benitox100pre.",
+            "status": "new"
+        },
+        {
+            "email": "Crunchypicha@outlook.com",
+            "password": "M1guelVenezol@n0",
+            "status": "new"
+        },
+        {
+            "email": "Lolagomez56@thekty.com",
+            "password": "Mega1234",
+            "status": "new"
+        }
+    ]
 }
