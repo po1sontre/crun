@@ -61,6 +61,7 @@ def add_or_mark_accounts(json_file, txt_file):
 
     print(f"Processed {len(new_accounts)} new accounts. Marked old accounts as 'unsure'.")
 
+
 def push_to_github():
     """Commit and push changes to the GitHub repository."""
     try:
@@ -71,13 +72,15 @@ def push_to_github():
     except subprocess.CalledProcessError as e:
         print(f"Error during Git operations: {e}")
 
-if __name__ == "__main__":
-    print("Please select the JSON file:")
-    json_file = choose_file("JSON")
-    if not json_file:
-        print("No JSON file selected. Exiting...")
-        exit()
 
+if __name__ == "__main__":
+    # Fixed path for accounts.json in the same directory as the script
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    json_file = os.path.join(script_dir, "accounts.json")
+    
+    print(f"Using JSON file at: {json_file}")
+
+    # Select the TXT file
     print("Please select the TXT file:")
     txt_file = choose_file("TXT")
     if not txt_file:
