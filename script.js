@@ -13,7 +13,7 @@ async function loadAccounts() {
     } catch (error) {
         console.error('Error loading accounts:', error);
         document.getElementById('accountsGrid').innerHTML = `
-            <div class="error-message">
+            <div class="error-message" style="text-align: center; color: #f47521; padding: 2rem;">
                 Failed to load accounts. Please try again later.
             </div>
         `;
@@ -50,7 +50,12 @@ function filterAccounts() {
 function displayAccounts(accountsToShow) {
     const grid = document.getElementById('accountsGrid');
     grid.innerHTML = accountsToShow.map((account, index) => `
-        <div class="account-card" style="animation-delay: ${index * 0.1}s">
+        <div class="account-card" 
+             data-email="${account.email}"
+             data-password="${account.password}"
+             style="animation-delay: ${index * 0.1}s"
+             role="button"
+             tabindex="0">
             <div class="account-details">
                 <div class="account-email">${account.email}</div>
                 <div class="account-password">${account.password}</div>
@@ -59,66 +64,67 @@ function displayAccounts(accountsToShow) {
                 <span class="status-badge status-${account.status}">
                     ${account.status}
                 </span>
-                <button class="copy-btn" onclick="copyAccount('${account.email}', '${account.password}')">
-                    <i class="fas fa-copy"></i>
-                </button>
             </div>
         </div>
     `).join('');
-}
 
-function showToast() {
-    const toast = document.getElementById('toast');
-    toast.classList.add('show');
-    setTimeout(() => {
-        toast.classList.remove('show');
-    }, 2000);
-}
-
-async function copyAccount(email, password) {
-    try {
-        const copyBtn = event.currentTarget;
-        const icon = copyBtn.querySelector('i');
-        const text = `${email}:${password}`;
+    // Add click and keyboard listeners
+    const cards = document.querySelectorAll('.account-card');
+    cards.forEach(card => {
+        card.addEventListener('click', function() {
+            copyAccount(this);
+        });
         
-        if (navigator.clipboard && window.isSecureContext) {
-            await navigator.clipboard.writeText(text);
-        } else {
-            const textArea = document.createElement('textarea');
-            textArea.value = text;
-            textArea.style.position = 'fixed';
-            textArea.style.left = '-999999px';
-            textArea.style.top = '-999999px';
-            document.body.appendChild(textArea);
-            textArea.focus();
-            textArea.select();
-            try {
-                document.execCommand('copy');
-                textArea.remove();
-            } catch (err) {
-                console.error('Fallback copy failed:', err);
-                textArea.remove();
-                return;
+        card.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                copyAccount(this);
             }
+        });
+    });
+}
+
+async function copyAccount(card) {
+    try {
+        const email = card.dataset.email;
+        const password = card.dataset.password;
+        const text = `${email}:${password}`;
+        await navigator.clipboard.writeText(text);
+        
+        const originalBackground = card.style.background;
+        card.style.background = 'rgba(244, 117, 33, 0.2)';
+        
+        const toast = document.getElementById('toast');
+        toast.innerHTML = '<i class="fas fa-check-circle"></i><span>Account copied to clipboard!</span>';
+        toast.classList.add('show');
+        
+        if (window.navigator.vibrate) {
+            window.navigator.vibrate(100);
         }
-        
-        icon.className = 'fas fa-check';
-        copyBtn.style.background = 'rgba(72, 187, 120, 0.2)';
-        copyBtn.style.borderColor = 'rgba(72, 187, 120, 0.3)';
-        showToast();
-        
+
         setTimeout(() => {
-            icon.className = 'fas fa-copy';
-            copyBtn.style.background = '';
-            copyBtn.style.borderColor = '';
+            card.style.background = originalBackground;
+            toast.classList.remove('show');
         }, 2000);
+
     } catch (err) {
         console.error('Failed to copy:', err);
+        showErrorToast('Failed to copy account details');
     }
 }
 
+function showErrorToast(message) {
+    const toast = document.getElementById('toast');
+    toast.innerHTML = `<i class="fas fa-exclamation-circle"></i><span>${message}</span>`;
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 3000);
+}
+
 function downloadNewAccounts() {
-    if (!accounts.accounts || accounts.accounts.length === 0) return;
+    if (!accounts.accounts || accounts.accounts.length === 0) {
+        showErrorToast('No accounts available');
+        return;
+    }
     
     const newAccounts = accounts.accounts
         .filter(account => account.status === 'new')
@@ -126,15 +132,7 @@ function downloadNewAccounts() {
         .join('\n');
     
     if (!newAccounts) {
-        const toast = document.getElementById('toast');
-        toast.innerHTML = '<i class="fas fa-exclamation-circle"></i><span>No new accounts found!</span>';
-        toast.classList.add('show');
-        setTimeout(() => {
-            toast.classList.remove('show');
-            setTimeout(() => {
-                toast.innerHTML = '<i class="fas fa-check-circle"></i><span>Copied to clipboard!</span>';
-            }, 300);
-        }, 2000);
+        showErrorToast('No new accounts found!');
         return;
     }
     
@@ -142,30 +140,23 @@ function downloadNewAccounts() {
     const url = window.URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `new_accounts_${new Date().toISOString().split('T')[0]}.txt`;
+    a.download = `crunchyroll_accounts_${new Date().toISOString().split('T')[0]}.txt`;
     document.body.appendChild(a);
     a.click();
     window.URL.revokeObjectURL(url);
     document.body.removeChild(a);
     
     const toast = document.getElementById('toast');
-    toast.innerHTML = '<i class="fas fa-check-circle"></i><span>Downloaded new accounts!</span>';
+    toast.innerHTML = '<i class="fas fa-check-circle"></i><span>Accounts downloaded successfully!</span>';
     toast.classList.add('show');
-    setTimeout(() => {
-        toast.classList.remove('show');
-        setTimeout(() => {
-            toast.innerHTML = '<i class="fas fa-check-circle"></i><span>Copied to clipboard!</span>';
-        }, 300);
-    }, 2000);
+    setTimeout(() => toast.classList.remove('show'), 2000);
 }
 
 document.getElementById('downloadNew').addEventListener('click', downloadNewAccounts);
-
+document.getElementById('statusFilter').addEventListener('change', filterAccounts);
 window.addEventListener('load', () => {
     document.querySelector('.logo').style.opacity = '1';
+    loadAccounts();
 });
 
-document.getElementById('statusFilter').addEventListener('change', filterAccounts);
-
 document.querySelector('.container').style.opacity = '0';
-loadAccounts();
