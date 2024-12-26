@@ -3,7 +3,8 @@ let isLoading = true;
 
 async function loadAccounts() {
     try {
-        const response = await fetch('accounts.json');
+        const timestamp = new Date().getTime();
+        const response = await fetch(`accounts.json?t=${timestamp}`);
         const data = await response.json();
         accounts = data;
         isLoading = false;
@@ -19,6 +20,7 @@ async function loadAccounts() {
         `;
     }
 }
+
 
 function updateAccountCount(count) {
     const countElement = document.getElementById('accountCount');
