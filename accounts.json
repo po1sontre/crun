@@ -33,7 +33,7 @@
         {
             "email": "5t3v336@gmail.com",
             "password": "steveroberts36",
-            "status": "new"
+            "status": "unsure"
         },
         {
             "email": "pinte2629@wrdsb.ca",
@@ -53,16 +53,46 @@
         {
             "email": "thebeast132612@gmail.com",
             "password": "081808di",
-            "status": "new"
+            "status": "unsure"
         },
         {
             "email": "dk_971@hotmail.com",
             "password": "diQwy6-boqjij-jybsyp",
-            "status": "new"
+            "status": "unsure"
         },
         {
             "email": "ana_valbu@hotmail.com",
             "password": "23Julio2010",
+            "status": "new"
+        },
+        {
+            "email": "teara01@yahoo.com",
+            "password": "Hunter07!",
+            "status": "new"
+        },
+        {
+            "email": "gillianbrownroberts@yahoo.com",
+            "password": "TweetyBird123",
+            "status": "new"
+        },
+        {
+            "email": "turtletower2000@hotmail.com",
+            "password": "Swim5021",
+            "status": "new"
+        },
+        {
+            "email": "sethlawhead@gmail.com",
+            "password": "Brawlers327!",
+            "status": "new"
+        },
+        {
+            "email": "nkeehner34@yahoo.com",
+            "password": "Pinata77",
+            "status": "new"
+        },
+        {
+            "email": "xsvlt1@gmail.com",
+            "password": "Dennis28",
             "status": "new"
         }
     ]
