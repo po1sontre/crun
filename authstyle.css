@@ -1,0 +1,213 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #111;
+    color: #fff;
+    overflow: hidden;
+}
+
+.background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: -1;
+    overflow: hidden;
+}
+
+.gradient {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(-45deg, #ff7f00, #f47521, #ff8040, #ff6b00);
+    background-size: 400% 400%;
+    animation: gradient 20s ease infinite;
+    opacity: 0.25;
+}
+
+@keyframes gradient {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+.login-container {
+    background: rgba(17, 17, 17, 0.9);
+    backdrop-filter: blur(15px);
+    padding: 3.5rem;
+    border-radius: 30px;
+    width: 90%;
+    max-width: 700px;
+    text-align: center;
+    border: 1px solid rgba(244, 117, 33, 0.4);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.login-container:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 16px 50px rgba(0, 0, 0, 0.8);
+}
+
+.logo {
+    font-size: 4rem;
+    color: #f47521;
+    margin-bottom: 2.5rem;
+    text-transform: uppercase;
+    font-weight: bold;
+    letter-spacing: 3px;
+    animation: glow 2s ease-in-out infinite, bounce 1s ease-in-out infinite;
+}
+
+@keyframes glow {
+    0%, 100% { text-shadow: 0 0 30px rgba(244, 117, 33, 0.8), 0 0 50px rgba(244, 117, 33, 0.3); }
+    50% { text-shadow: 0 0 40px rgba(244, 117, 33, 1), 0 0 80px rgba(244, 117, 33, 0.8); }
+}
+
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-15px); }
+}
+
+h1 {
+    font-size: 2.2rem;
+    margin-bottom: 2.5rem;
+    color: #f47521;
+    text-transform: capitalize;
+    font-weight: 500;
+}
+
+.input-group {
+    margin-bottom: 2.5rem;
+}
+
+input {
+    width: 100%;
+    padding: 1.5rem;
+    border: 1px solid rgba(244, 117, 33, 0.3);
+    background: rgba(0, 0, 0, 0.4);
+    border-radius: 20px;
+    color: white;
+    font-size: 1.3rem;
+    text-align: center;
+    letter-spacing: 1.5px;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+    overflow-x: auto;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+input:focus {
+    outline: none;
+    border-color: #f47521;
+    box-shadow: 0 0 25px rgba(244, 117, 33, 0.5), 0 0 40px rgba(244, 117, 33, 0.3);
+    transform: scale(1.03);
+}
+
+input:focus::placeholder {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.key-format {
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 1rem;
+    margin-top: 0.6rem;
+}
+
+button {
+    width: 100%;
+    padding: 1.5rem;
+    background: #f47521;
+    border: none;
+    border-radius: 20px;
+    color: white;
+    font-size: 1.3rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    position: relative;
+}
+
+button:hover:not(:disabled) {
+    background: #ff8040;
+    transform: translateY(-4px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+}
+
+button:disabled {
+    background: #666;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+.error-message {
+    color: #ff4444;
+    margin-top: 1.5rem;
+    display: none;
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+.success-message {
+    color: #4CAF50;
+    margin-top: 1.5rem;
+    display: none;
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-15px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.loading {
+    display: none;
+}
+
+.spinner {
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    100% { transform: rotate(360deg); }
+}
+
+@media (max-width: 768px) {
+    .login-container {
+        padding: 2.5rem;
+        max-width: 100%;
+        border-radius: 20px;
+    }
+
+    .logo {
+        font-size: 3rem;
+        margin-bottom: 1.5rem;
+    }
+
+    h1 {
+        font-size: 1.8rem;
+    }
+
+    input {
+        font-size: 1.1rem;
+    }
+
+    button {
+        font-size: 1.2rem;
+    }
+}

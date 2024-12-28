@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crunchyroll Account Manager</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="icon" href="icons8-crunchyroll-200.png" type="image/png">
+</head>
+<body>
+    <div class="background">
+        <div class="gradient"></div>
+        <div class="gradient-2"></div>
+        <div class="stars"></div>
+    </div>
+    
+    <div class="container glass">
+        <div class="header">
+            <div class="logo">
+                <i class="fas fa-tv"></i>
+            </div>
+            <h1>Crunchyroll Accounts</h1>
+            <div class="anime-decoration">
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+            </div>
+        </div>
+        
+        <div class="controls glass-card">
+            <div class="controls-left">
+                <select id="statusFilter" class="filter">
+                    <option value="all">All Accounts</option>
+                    <option value="new">New</option>
+                    <option value="unsure">Unsure</option>
+                </select>
+                <button id="downloadNew" class="download-btn">
+                    <i class="fas fa-download"></i> Download New
+                </button>
+            </div>
+            <span id="accountCount" class="count"></span>
+        </div>
+
+        <div class="accounts-grid" id="accountsGrid">
+            <!-- Accounts will be inserted here -->
+        </div>
+
+        <footer class="footer glass-card">
+            <div class="credits">Made with ❤️ by po1sontre</div>
+            <div class="social-links">
+                <a href="https://github.com/po1sontre" target="_blank" class="social-btn">
+                    <i class="fab fa-github"></i>
+                </a>
+                <a href="https://ko-fi.com/po1sontre" target="_blank" class="social-btn kofi-btn">
+                    <i class="fas fa-coffee"></i>
+                </a>
+            </div>
+        </footer>
+    </div>
+    
+    <div id="toast" class="toast">
+        <i class="fas fa-check-circle"></i>
+        <span>Copied to clipboard!</span>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
